@@ -1,0 +1,37 @@
+Java 
+  Algorithm
+  DesignPattern / SOLID
+
+- 02 object_classes
+
+Polymophism
+Inheritance
+Encapsulation
+Abstraction
+Classes
+Objects
+Instance
+Method
+Message Passing
+
+- 03 constructor
+
+同 class 名函数
+
+- 04 basic datatypes
+
+byte -2^7 to 2^7-1
+short -2^15 to 2^15-1
+int -2^31 to 2^31-1
+long -2^63 to 2^63-1
+float 32-bit
+double 64-bit
+boolean true/false
+char 16-bit Unicode character
+
+- 05 vaiable types
+
+public 
+public static
+private
+protected
