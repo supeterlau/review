@@ -1,0 +1,54 @@
+# basic syntax
+
+/* comments
+*
+*/
+
+// comments
+
+没有句末逗号
+
+def main() {}
+
+Array
+
+String
+
+scalac file.scala
+scala ClassName
+
+合法标识
+  age
+  _value
+  __1_value
+  $ 是保留关键字
+  数字字母下划线
+
+  操作符标识
+    :::
+    :>
+    <?>
+    :-> 内部表示为 $colon$minus$greater
+  混合标识
+    unary_+ 
+    myvar_= 运算符重载
+  标识符字面量
+    `<click>` `yield`
+
+package com.github.stuff
+
+import scala.xml._
+
+import scala.collection.mutable.{HashMap, List}
+
+动态调用
+  foo.field => foo.selectDynamic("filed")
+
+akka
+
+Ponylang
+
+brew install libressl
+sh -c "$(curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ponylang/ponyup/latest-release/ponyup-init.sh)"
+
+Jekyll theme
