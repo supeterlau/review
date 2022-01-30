@@ -29,9 +29,83 @@ double 64-bit
 boolean true/false
 char 16-bit Unicode character
 
-- 05 vaiable types
+- 05 variable types
+
+实例变量
+
+  private double salary;
+  public void setSalary(double value) {
+    salary = value;
+  }
+  employee.salary;
+
+static
+  类变量
+  多用于声明常量
+  多为 public static final
 
 public 
-public static
+  public static
 private
 protected
+
+static
+final
+abstract 抽象类
+  扩展类必须实现所有 abstract 方法，除非扩展类也是抽象类
+  包含 abstract 方法的类必须是 abstract 类
+  abstract 类可以不包含 abstract 方法
+
+用于 threads
+  synchronized 
+    保证每次被一个 thread 访问
+  volatile
+    用于 private 或 type 对象
+    merge its own copy of variable with the master copy in the memory
+
+transient
+
+public transient int limit = 15; 序列化对象时 JVM 跳过该实例变量
+
+
+- 07 basic operators
+
+value++
+
+!=
+>=
+<=
+
+a = 60, b = 13;
+a & b;
+a | b;
+a ^ b;
+~a;
+a<<2;
+a>>2;
+a>>>2;
+
+expression ? value_true : value_false;
+
+- 08 loop control
+do {
+
+} while()
+
+while() {
+
+}
+
+for(int x = 0; x < 20; x++) {
+  System.out.print("value of x: " + x + "\n");
+}
+
+break
+
+continue
+
+增强版 for loop
+
+for (int x : array) {
+  x;
+}
