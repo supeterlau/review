@@ -1,0 +1,8 @@
+# run Prog01.java 1 2 3
+
+run() {
+  input=$1
+  javac -cp ./classes $input -d ./classes
+  shift
+  java -cp ./classes ${input%%.*} $@
+}
