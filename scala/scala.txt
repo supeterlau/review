@@ -1,4 +1,4 @@
-# basic syntax
+# 01 basic syntax
 
 /* comments
 *
@@ -44,11 +44,149 @@ import scala.collection.mutable.{HashMap, List}
 动态调用
   foo.field => foo.selectDynamic("filed")
 
+# 02 data types
+
+Byte Short Int Long Float Double Char
+
+String: sequence of Chars
+Unit: no value
+Mull: empty reference
+Nothing: subtype of any type
+Any: supertype of any type
+AnyRef: supertype of any reference type
+
+Boolean Literals
+  true false
+
+Symbol Literals
+
+'x 是 case class
+
+package scals
+final case class Symbol private (name: String) {
+  override def toString: String = "'" + name
+}
+
+Character '\n'
+
+String "Yep"
+
+多行 """多行
+文本
+"""
+
+scala.Null
+
+# 03 variables
+
+var someVar: String = "Foo" 可变声明
+
+val someVal: String = "Bar" 不可变声明
+
+val (valInt， valString) = Pair(40, "Speed")
+
+# 04 class object
+
+
+# 01 basic syntax
+
 akka
 
 Ponylang
+https://github.com/ponylang/ponyup
+https://github.com/ponylang/ponyc/blob/main/INSTALL.md
 
 brew install libressl
 sh -c "$(curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ponylang/ponyup/latest-release/ponyup-init.sh)"
 
+Install the latest release
+ponyup update ponyc release
+
+root/main.pony
+root/: ponyc
+
+https://tutorial.ponylang.io/types/classes.html
+https://stdlib.ponylang.io/format--index/
+
 Jekyll theme
+
+jekyll new-theme cirrus
+
+编辑 .gemspec
+
+bundle install
+
+创建 index.html 测试
+
+https://jekyllrb.com/docs/layouts/
+
+While you can configure the directory name in which your layouts can reside by setting the layouts_dir key in your config file, the directory itself should be located at the root of your site's source directory
+  蟹蟹你啊，指定位置还要在 root 下
+  可以是 root/layouts_01
+  不可以是 root/theme/layouts
+
+page 基本组成部分
+  about.md => example.com/about.html
+  doc/page1.md => example.com/doc/page1.html
+
+post jekyll 默认用于博客
+  支持 markdown html 
+  YEAR-MONTH-DAY-title.MARKUP
+
+  layout: post
+
+  post index
+    tag
+    category site.categories
+
+  category: a b 和 categories: a b 不同
+
+  默认的摘要 excerpt 是第一段 
+
+comment
+
+{% comment %} This is a comment in Liquid {% endcomment %}
+
+layout
+
+变量
+
+---
+city: San Francisco
+---
+<p>{{ layout.city }}</p>
+
+{{ content }}
+
+https://jekyllrb.com/docs/liquid/filters/
+
+- using sass
+
+_sass
+  main.scss
+
+assets
+  css/styles.scss
+  开头需要两行 ---
+
+https://jekyllrb.com/docs/layouts/
+
+https://www.tutorialspoint.com/yaml/yaml_comments.htm
+  # any comments
+
+https://brasier.me/jekyll/theme/2019/01/19/installing-minimal-mistakes-jekyll/#
+
+https://github.com/mmistakes/minimal-mistakes/tree/master/docs/_pages
+  pages: tag category
+
+author
+toc 
+nav
+
+new posts
+hot posts
+css?v hash
+  https://github.com/mmistakes/minimal-mistakes/blob/4.24.0/_includes/head.html
+  https://renatogolia.com/2020/10/22/creating-this-blog-theme/#http-cache-busting
+
+  https://jv.ag/website/Setting-up-Jekyll-and-Github-Pages/
