@@ -1,0 +1,7 @@
+# run Prog01.java 1 2 3
+
+run() {
+  input=$1
+  scalac -deprecation -cp ./classes $input -d ./classes
+  scala -cp ./classes Main
+}
