@@ -1,0 +1,162 @@
+# async0
+
+https://realpython.com/python-async-features/#building-a-synchronous-web-server
+
+# server0
+
+server 和 framework 分离
+
+nginx
+Gnicorn/uWSGI
+
+Django Flask Pyramid FastAPI
+
+需要实现 WSGI interface 的 server 部分
+
+Part3 处理多个请求
+
+socket 是 abstraction of a communication endpoint
+允许程序通过 file descriptors 和其他程序通信
+
+socket pair 是 4-tuple 记录两个 endpoints 信息
+
+{local_ip_address, local_port, foreign_ip_address, foreign_port}
+
+唯一地标识 network 中的连接
+
+local_ip_address, local_port 被称为 socket 
+
+socket_pair {ip:port, ip:port}
+
+服务端标准流程
+
+create socket
+  socket
+  bind
+  listen
+start accept connection
+  accept
+
+客户端
+create socket
+connect
+  connect
+  sendall
+  recv
+
+server.getsockname()[:2] 获取客户端信息
+
+process 进程
+
+ps a -opid,ppid,args | grep server03 | grep -v grep
+ps a -opid,ppid,args | grep 199746 | grep -v grep
+
+能看到 process ID PID PID 还有 PPID parent process ID
+os.getpid() os.getppid()
+
+file descriptor 是 non-negative integer 当程序打开文件时，操作系统返回给进程
+0 standard input
+1 standard output
+2 standard error
+
+sys.stdin
+sys.stdin.fileno()
+sys.stdout.fileno()
+sys.stderr.fileno()
+
+# os.write(sys.stdout.fileno(), 'hello\n')
+os.write(0, b'hello\n')
+
+socket 也有 file descriptor
+>>> sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+>>> sock.fileno()
+
+REQUEST_QUEUE_SIZE
+  listen 方法的 BACKLOG 参数
+  不能让服务器响应请求，仅仅是 kernel 允许建立连接
+
+concurrent server
+
+- use a fork() system call 多进程方式 启动子进程 类似 os.spawn()
+
+当使用 fork 时，返回给新进程的进程 id 为 0 
+fork在 parent process 中返回 child's PID 
+子进程获得 parent process 的 file descriptors copy
+
+kerel 使用 descriptor reference counts 决定是否关闭 file descriptor / socket 
+  count 为 0 时关闭
+    即父子进程都 socket.close() 后
+
+socket.close() 发送 FIN termination packet
+
+server parent process 不处理请求
+它仅仅 acccept new connection, fork a new child process 处理这个连接请求。然后 Loop accept 新连接，再启动 child process 来处理
+
+当未关闭全部 file descriptor 时
+当连接数超过 file descriptor 上限时
+  ulimit -a
+  ulimit -n 256
+
+python client03.py --max-clients=300
+
+子进程退出，而父进程未处理子进程返回值时会产生僵尸进程
+  子进程退出发送 SIGHLD 信号
+  parent process 为该信号设置 signal handler 子进程退出时会调用 handler
+
+ps ux | awk '{if($8 == "Z+") print}'
+
+ps -o ppid= -p 208642
+
+parent process 的 accept 会被 SIGCHLD 中断，需要重新 accept
+
+同时发送很多 SIGCHLD，parent process 接收信号不是按 queue 执行，会错过几个 signal
+解决方案是 waitpid 系统调用
+
+try:
+  data = server.recv(BUFFER_SIZE)
+except socket.timeout:
+  state['Errors'] = True
+  raise socket.timeout('Error')
+if not data:
+  s = 'Empty'
+else:
+  s = data.decode('utf-8')
+
+select
+yield
+
+
+js fetch myip.ipip.net
+deno.deploy faunadb (google analysis)
+
+
+ORG 0x1234 程序读取 0x1234 处内存
+
+为了同时运行的多个程序不会使用同一块内存
+需要对内存分段，内存被分为很多块每一块都是一个段，每个段起始地址为 0
+分段后，程序只需要使用
+ORG 0 就可以正确执行
+分段中的段指的是 段寄存器 segment
+
+表示一个段
+  段的大小
+  段起始位置
+  段管理属性 禁止写入，禁止执行，系统专用等
+
+CPU 用 8 个字节数据表示 64位
+指定段的寄存器只有 16位
+因此使用段号，保存在段寄存器里，再设定段号与段的关系
+段寄存器本来可以处理 0-6535 的数，但段寄存器低 3位不能用
+只能用 0-8191 区域 定义 8192 个段 (共 4G)
+记录段号和段的关系需要 8192 * 8 = 65536 字节 64KB 需要保存在内存里
+这部分数据被称为 GDT global segement desriptor table 
+全局段号记录表
+CPU 中的 GDTR 记录内存起始地址和有效设定个数
+
+IDT interrupt descriptor table 中断记录表
+设备有变化时产生中断，CPU 暂停处理中的任务，执行中断程序，再调用事先设定函数，返回之前处理的任务
+
+要使用鼠标，必须使用中断
+IDT 记录 0-255 中断号码和调用函数关系
+
+先设定 GDT
