@@ -1,0 +1,39 @@
+- Composer
+
+https://www.digitalocean.com/community/tutorials/how-to-install-composer-on-ubuntu-20-04-quickstart
+
+sudo apt update
+sudo apt install php-cli unzip
+
+cd ~
+curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+
+HASH=`curl -sS https://composer.github.io/installer.sig`
+php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+
+sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+composer
+
+
+https://pkg.xyz/
+composer config -g repo.packagist composer https://packagist.phpcomposer.com
+composer config -g --unset repos.packagist
+
+- Laravel
+
+https://laravel.com/docs/9.x#installation-via-composer
+
+composer create-project laravel/laravel example-app
+
+Error: phpunit/phpunit require ext-dom
+
+https://www.php.net/manual/en/dom.installation.php
+
+sudo apt-get install php-xml
+
+~/.cache/composer/
+
+php artisan serve --host=0.0.0.0
+
+php artisan key:generate
